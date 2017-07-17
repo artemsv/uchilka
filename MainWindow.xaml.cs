@@ -15,14 +15,28 @@ using System.Windows.Shapes;
 
 namespace Uchilka
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            (sender as Border).BorderThickness = new Thickness(2);
+            (sender as Border).CaptureMouse();
+        }
+
+        private void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            (sender as Border).BorderThickness = new Thickness(1);
+            (sender as Border).ReleaseMouseCapture();
         }
     }
 }
