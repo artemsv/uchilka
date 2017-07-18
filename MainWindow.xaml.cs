@@ -32,7 +32,7 @@ namespace Uchilka
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadImages();   
+            //LoadImages();   
         }
 
         private void LoadImages()

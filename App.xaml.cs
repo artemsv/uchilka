@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Uchilka.Logic;
 
 namespace Uchilka
 {
@@ -13,5 +14,9 @@ namespace Uchilka
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            new MainController().Run();
+        }
     }
 }
