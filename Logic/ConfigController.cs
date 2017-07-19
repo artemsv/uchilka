@@ -17,5 +17,10 @@ namespace Uchilka.Logic
             _configPath = configPath;
             _configDirInfo = new DirectoryInfo(_configPath);
         }
+
+        public IEnumerable<string> GetMainMenu()
+        {
+            return new List<string> { "geyrn 1", "werwerwer" };
+        }
     }
 }
