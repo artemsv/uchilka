@@ -143,10 +143,12 @@
             <Image x:Name="Image10" />
         </Border>
         <Grid
+            x:Name="Controlgrid"
             Grid.Row="1"
             Grid.RowSpan="3"
             Grid.Column="1"
-            Grid.ColumnSpan="2">
+            Grid.ColumnSpan="2"
+            DataContext="{Binding ControlViewModel}">
             <StackPanel Orientation="Vertical">
                 <DockPanel Margin="5" HorizontalAlignment="Stretch">
 
@@ -178,6 +180,18 @@
                             Kind="Cross" />
                     </StackPanel>
                 </DockPanel>
+                <ListBox
+                    x:Name="ChoiceListBox"
+
+                    Foreground="Beige"
+                    ItemsSource="{Binding ChoiceItems}"
+                    Visibility="{Binding ChoiceListBoxVisibility}">
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
             </StackPanel>
         </Grid>
     </Grid>

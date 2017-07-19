@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Uchilka.ViewModels;
 
 namespace Uchilka.Logic
 {
@@ -15,6 +16,12 @@ namespace Uchilka.Logic
         public MainController()
         {
             _dataController = new DataController(ConfigurationManager.AppSettings["DataPath"]);
+
+            ControlViewModel = new ControlViewModel
+            {
+                ChoiceListBoxVisibility = System.Windows.Visibility.Visible,
+                ChoiceItems = new List<string> { "Ruslan", "Adelya" }
+            };
         }
 
         public void Run()
@@ -32,6 +39,9 @@ namespace Uchilka.Logic
         {
             _mainWindow = new MainWindow();
             _mainWindow.Show();
+            _mainWindow.DataContext = this;
         }
+
+        public ControlViewModel ControlViewModel { get; set; }
     }
 }
