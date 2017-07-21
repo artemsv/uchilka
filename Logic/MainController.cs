@@ -17,11 +17,6 @@ namespace Uchilka.Logic
         {
             _dataController = new DataController(ConfigurationManager.AppSettings["DataPath"]);
 
-            ControlViewModel = new ControlViewModel
-            {
-                ChoiceListBoxVisibility = System.Windows.Visibility.Visible,
-                ChoiceItems = new List<string> { "Ruslan", "Adelya" }
-            };
         }
 
         public void Run()
@@ -38,10 +33,8 @@ namespace Uchilka.Logic
         private void CreateUI()
         {
             _mainWindow = new MainWindow();
+            _mainWindow.DataContext = new MainViewModel();
             _mainWindow.Show();
-            _mainWindow.DataContext = this;
         }
-
-        public ControlViewModel ControlViewModel { get; set; }
     }
 }

@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 
 namespace Uchilka
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow 
     {
         private readonly List<Image> Images;
 
