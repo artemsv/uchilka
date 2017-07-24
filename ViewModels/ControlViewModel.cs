@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MahApps.Metro.Controls;
+using Uchilka.Presentation;
 
 namespace Uchilka.ViewModels
 {
@@ -15,10 +17,12 @@ namespace Uchilka.ViewModels
         private IEnumerable<string> _choiceItems;
         private Visibility _marksPanelVisibility;
         private readonly DelegateCommand _startCommand;
+        private int _selectedChoiceIndex;
 
         public ControlViewModel()
         {
-            _startCommand = new DelegateCommand(() => MessageBox.Show("Start"));
+            _selectedChoiceIndex = -1;
+            _startCommand = new DelegateCommand(HandleStart);
         }
 
         public Visibility ChoiceListBoxVisibility
@@ -60,7 +64,25 @@ namespace Uchilka.ViewModels
             }
         }
 
+        public int SelectedChoiceIndex
+        {
+            get
+            {
+                return _selectedChoiceIndex;
+            }
+            set
+            {
+                _selectedChoiceIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        public DelegateCommand StartCommand => _startCommand;
+
+        #region Private
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -71,6 +93,14 @@ namespace Uchilka.ViewModels
             }
         }
 
-        public DelegateCommand StartCommand => _startCommand;
+        private async void HandleStart()
+        {
+            if (_selectedChoiceIndex == -1)
+            {
+                await InfoBox.ShowMessageAsync("Пожалуйста, выберите имя...", "");
+            }
+        }
+
+        #endregion
     }
 }
