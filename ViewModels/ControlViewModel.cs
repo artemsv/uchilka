@@ -16,12 +16,13 @@ namespace Uchilka.ViewModels
         private Visibility _choiceListBoxVisibility;
         private IEnumerable<string> _choiceItems;
         private Visibility _marksPanelVisibility;
+        private Visibility _startButtonVisibility;
         private readonly DelegateCommand _startCommand;
-        private int _selectedChoiceIndex;
+        private int _choiceIndex;
 
         public ControlViewModel()
         {
-            _selectedChoiceIndex = -1;
+            _choiceIndex = -1;
             _startCommand = new DelegateCommand(HandleStart);
         }
 
@@ -34,6 +35,19 @@ namespace Uchilka.ViewModels
             set
             {
                 _choiceListBoxVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility StartButtonVisibility
+        {
+            get
+            {
+                return _startButtonVisibility;
+            }
+            set
+            {
+                _startButtonVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -64,21 +78,27 @@ namespace Uchilka.ViewModels
             }
         }
 
-        public int SelectedChoiceIndex
+        public int ChoiceIndex
         {
             get
             {
-                return _selectedChoiceIndex;
+                return _choiceIndex;
             }
             set
             {
-                _selectedChoiceIndex = value;
+                _choiceIndex = value;
                 OnPropertyChanged();
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public string ChoiceItem
+        {
+            get;
+            set;
+        }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event StartedEventHandler Started;
 
         public DelegateCommand StartCommand => _startCommand;
 
@@ -95,9 +115,13 @@ namespace Uchilka.ViewModels
 
         private async void HandleStart()
         {
-            if (_selectedChoiceIndex == -1)
+            if (_choiceIndex == -1)
             {
                 await InfoBox.ShowMessageAsync("Пожалуйста, выберите имя...", "");
+            }
+            else
+            {
+                Started(this, ChoiceItem);
             }
         }
 
