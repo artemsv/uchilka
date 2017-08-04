@@ -12,11 +12,13 @@ namespace Uchilka.Logic
     {
         private MainWindow _mainWindow;
         private readonly DataController _dataController;
+        private MainViewModel _mainModel;
+        private readonly AnswerChecker _answerChecker;
 
         public MainController()
         {
             _dataController = new DataController(ConfigurationManager.AppSettings["DataPath"]);
-
+            _answerChecker = new AnswerChecker();
         }
 
         public void Run()
@@ -32,9 +34,24 @@ namespace Uchilka.Logic
 
         private void CreateUI()
         {
-            _mainWindow = new MainWindow();
-            _mainWindow.DataContext = new MainViewModel();
+            _mainModel = new MainViewModel();
+            _mainModel.UserAnswered += MainModel_UserAnswered;
+            _mainModel.Started += MainModel_Started;
+
+            _mainWindow = new MainWindow(_mainModel);
             _mainWindow.Show();
+        }
+
+        private void MainModel_Started(object sender, string name)
+        {
+        }
+
+        private void MainModel_UserAnswered(int fieldId)
+        {
+            if (_answerChecker.Accepted(fieldId))
+            {
+
+            }
         }
     }
 }

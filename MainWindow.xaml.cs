@@ -15,12 +15,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Uchilka.ViewModels;
 
 namespace Uchilka
 {
     public partial class MainWindow 
     {
         private readonly List<Image> Images;
+        private MainViewModel mainViewModel;
 
         public MainWindow()
         {
@@ -28,6 +30,13 @@ namespace Uchilka
 
             Images = new List<Image> { Image1, Image2, Image3, Image4, Image5,
                 Image6, Image7, Image8, Image9, Image10};
+        }
+
+        public MainWindow(MainViewModel mainViewModel)
+            : this()
+        {
+            this.mainViewModel = mainViewModel;
+            DataContext = mainViewModel;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -77,7 +86,7 @@ namespace Uchilka
 
             if ((sender as Border).Tag is true)
             {
-                Debug.WriteLine("CLICK!");
+                mainViewModel.Click(((sender as Border).Child as Image).Name.Replace("Image", string.Empty));
             }
         }
 

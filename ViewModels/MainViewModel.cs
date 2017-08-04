@@ -28,16 +28,21 @@ namespace Uchilka.ViewModels
             BorderImageVisibility = Visibility.Hidden;
         }
 
-        private void ControlViewModel_Started(ControlViewModel sender, string name)
+        private void ControlViewModel_Started(object sender, string name)
         {
-            sender.ChoiceListBoxVisibility = Visibility.Hidden;
-            sender.MarksPanelVisibility = Visibility.Visible;
-            sender.StartButtonVisibility = Visibility.Hidden;
+            var controlView = sender as ControlViewModel;
+            controlView.ChoiceListBoxVisibility = Visibility.Hidden;
+            controlView.MarksPanelVisibility = Visibility.Visible;
+            controlView.StartButtonVisibility = Visibility.Hidden;
 
             BorderImageVisibility = Visibility.Visible;
+
+            Started(this, name);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event UserAnsweredEventHandler UserAnswered;
+        public event StartedEventHandler Started;
         public ControlViewModel ControlViewModel { get; set; }
 
         public Visibility BorderImageVisibility
@@ -62,6 +67,10 @@ namespace Uchilka.ViewModels
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        internal void Click(string id)
+        {
         }
 
         #endregion
