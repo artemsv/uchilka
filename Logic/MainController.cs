@@ -10,6 +10,7 @@ namespace Uchilka.Logic
 {
     internal class MainController
     {
+        private RunMode _mode;
         private MainWindow _mainWindow;
         private readonly DataController _dataController;
         private MainViewModel _mainModel;
@@ -19,6 +20,8 @@ namespace Uchilka.Logic
         {
             _dataController = new DataController(ConfigurationManager.AppSettings["DataPath"]);
             _answerChecker = new AnswerChecker();
+
+            _mode = RunMode.SelectName;
         }
 
         public void Run()
@@ -44,6 +47,15 @@ namespace Uchilka.Logic
 
         private void MainModel_Started(object sender, string name)
         {
+            if (_mode == RunMode.SelectName)
+            {
+                _mainModel.LoadTests(_dataController.GetCatalog());
+                _mode = RunMode.SelectTest;
+            }else if (_mode == RunMode.SelectTest)
+            {
+                _mainModel.StartTest();
+                _mainWindow.WindowState = System.Windows.WindowState.Maximized;
+            }
         }
 
         private void MainModel_UserAnswered(int fieldId)

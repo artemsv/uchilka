@@ -17,8 +17,12 @@ namespace Uchilka.ViewModels
         private IEnumerable<string> _choiceItems;
         private Visibility _marksPanelVisibility;
         private Visibility _startButtonVisibility;
+        private string _startButtonCaption;
         private readonly DelegateCommand _startCommand;
         private int _choiceIndex;
+
+        private int _correctAnswerCount;
+        private int _wrongAnswerCount;
 
         public ControlViewModel()
         {
@@ -101,6 +105,45 @@ namespace Uchilka.ViewModels
         public event StartedEventHandler Started;
 
         public DelegateCommand StartCommand => _startCommand;
+
+        public string StartButtonCaption
+        {
+            get
+            {
+                return _startButtonCaption;
+            }
+            set
+            {
+                _startButtonCaption = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int CorrectAnswerCount
+        {
+            get
+            {
+                return _correctAnswerCount;
+            }
+            set
+            {
+                _correctAnswerCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int WrongAnswerCount
+        {
+            get
+            {
+                return _wrongAnswerCount;
+            }
+            set
+            {
+                _wrongAnswerCount = value;
+                OnPropertyChanged();
+            }
+        }
 
         #region Private
 

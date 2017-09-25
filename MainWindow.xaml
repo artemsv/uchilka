@@ -12,7 +12,7 @@
     MinHeight="350"
     BorderBrush="{DynamicResource AccentColorBrush}"
     Loaded="Window_Loaded"
-    SizeToContent="WidthAndHeight"
+    SizeToContent="Manual"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <controls:MetroWindow.Resources>
@@ -175,7 +175,7 @@
                             VerticalAlignment="Center"
                             Foreground="Green"
                             Kind="Check" />
-                        <Label Content="0" FontSize="48" />
+                        <Label Content="{Binding CorrectAnswerCount}" FontSize="48" />
                     </StackPanel>
                     <StackPanel
                         HorizontalAlignment="Right"
@@ -183,7 +183,7 @@
                         Orientation="Horizontal">
                         <Label
                             HorizontalAlignment="Right"
-                            Content="0"
+                            Content="{Binding WrongAnswerCount}"
                             FontSize="48" />
                         <iconPacks:PackIconEntypo
                             Width="36"
@@ -215,7 +215,7 @@
                         Padding="30,20,30,20"
                         HorizontalAlignment="Center"
                         Command="{Binding StartCommand}"
-                        Content="СТАРТ"
+                        Content="{Binding StartButtonCaption}"
                         FontSize="24"
                         Visibility="{Binding StartButtonVisibility}" />
                 </StackPanel>

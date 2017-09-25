@@ -68,7 +68,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataModels\Answer.cs" />
+    <Compile Include="DataModels\Question.cs" />
+    <Compile Include="DataModels\Test.cs" />
     <Compile Include="Logic\AnswerChecker.cs" />
+    <Compile Include="Logic\RunMode.cs" />
     <Compile Include="Presentation\InfoBox.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />

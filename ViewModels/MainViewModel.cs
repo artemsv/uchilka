@@ -20,7 +20,8 @@ namespace Uchilka.ViewModels
                 ChoiceListBoxVisibility = System.Windows.Visibility.Visible,
                 ChoiceItems = new List<string> { "Руслан", "Аделя" },
                 MarksPanelVisibility = System.Windows.Visibility.Collapsed,
-                StartButtonVisibility = Visibility.Visible
+                StartButtonVisibility = Visibility.Visible,
+                StartButtonCaption = "Выбор"
             };
 
             ControlViewModel.Started += ControlViewModel_Started;
@@ -28,16 +29,10 @@ namespace Uchilka.ViewModels
             BorderImageVisibility = Visibility.Hidden;
         }
 
-        private void ControlViewModel_Started(object sender, string name)
+        internal void LoadTests(IEnumerable<string> tests)
         {
-            var controlView = sender as ControlViewModel;
-            controlView.ChoiceListBoxVisibility = Visibility.Hidden;
-            controlView.MarksPanelVisibility = Visibility.Visible;
-            controlView.StartButtonVisibility = Visibility.Hidden;
-
-            BorderImageVisibility = Visibility.Visible;
-
-            Started(this, name);
+            ControlViewModel.ChoiceItems = tests;
+            ControlViewModel.StartButtonCaption = "Старт";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -58,6 +53,11 @@ namespace Uchilka.ViewModels
             }
         }
 
+        internal void StartTest()
+        {
+            ReadyToTest(ControlViewModel);
+        }
+
         #region Private
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -71,6 +71,24 @@ namespace Uchilka.ViewModels
 
         internal void Click(string id)
         {
+        }
+
+        private void ReadyToTest(ControlViewModel controlView)
+        {
+            controlView.ChoiceListBoxVisibility = Visibility.Hidden;
+            controlView.MarksPanelVisibility = Visibility.Visible;
+            controlView.StartButtonVisibility = Visibility.Hidden;
+
+            BorderImageVisibility = Visibility.Visible;
+            
+        }
+
+        private void ControlViewModel_Started(object sender, string name)
+        {
+            //var controlView = sender as ControlViewModel;
+            //ReadyToTest(controlView);
+            
+            Started(this, name);
         }
 
         #endregion
