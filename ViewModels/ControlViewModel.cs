@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using MahApps.Metro.Controls;
 using Uchilka.Presentation;
 
 namespace Uchilka.ViewModels
@@ -17,8 +12,11 @@ namespace Uchilka.ViewModels
         private IEnumerable<string> _choiceItems;
         private Visibility _marksPanelVisibility;
         private Visibility _startButtonVisibility;
+        private Visibility _cancelButtonVisibility;
         private string _startButtonCaption;
+        private string _cancelButtonCaption;
         private readonly DelegateCommand _startCommand;
+        private readonly DelegateCommand _cancelCommand;
         private int _choiceIndex;
 
         private int _correctAnswerCount;
@@ -28,6 +26,7 @@ namespace Uchilka.ViewModels
         {
             _choiceIndex = -1;
             _startCommand = new DelegateCommand(HandleStart);
+            _cancelCommand = new DelegateCommand(HandleCancel);
         }
 
         public Visibility ChoiceListBoxVisibility
@@ -52,6 +51,19 @@ namespace Uchilka.ViewModels
             set
             {
                 _startButtonVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility CancelButtonVisibility
+        {
+            get
+            {
+                return _cancelButtonVisibility;
+            }
+            set
+            {
+                _cancelButtonVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -103,8 +115,10 @@ namespace Uchilka.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event StartedEventHandler Started;
+        public event StartedEventHandler Cancelled;
 
         public DelegateCommand StartCommand => _startCommand;
+        public DelegateCommand CancelCommand => _cancelCommand;
 
         public string StartButtonCaption
         {
@@ -115,6 +129,19 @@ namespace Uchilka.ViewModels
             set
             {
                 _startButtonCaption = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CancelButtonCaption
+        {
+            get
+            {
+                return _cancelButtonCaption;
+            }
+            set
+            {
+                _cancelButtonCaption = value;
                 OnPropertyChanged();
             }
         }
@@ -166,6 +193,11 @@ namespace Uchilka.ViewModels
             {
                 Started(this, ChoiceItem);
             }
+        }
+
+        private void HandleCancel()
+        {
+            Cancelled(this, ChoiceItem);
         }
 
         #endregion

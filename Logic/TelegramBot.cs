@@ -20,10 +20,10 @@ namespace Uchilka.Logic
             var url = $"https://api.telegram.org/bot{authenticationToken}";
             var res = h.GetAsync(url + "/getMe").Result;
 
-            var botClient = new Telegram.Bot.TelegramBotClient("", h);
+            //var botClient = new Telegram.Bot.TelegramBotClient("", h);
 
-            //return true;
-            return botClient.GetMeAsync().Result;
+            return null;
+            //return botClient.GetMeAsync().Result;
         }
     }
 }

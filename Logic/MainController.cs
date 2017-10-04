@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 using Uchilka.ViewModels;
 
 namespace Uchilka.Logic
@@ -40,20 +35,37 @@ namespace Uchilka.Logic
             _mainModel = new MainViewModel();
             _mainModel.UserAnswered += MainModel_UserAnswered;
             _mainModel.Started += MainModel_Started;
+            _mainModel.Cancelled += MainModel_Cancelled;
 
             _mainWindow = new MainWindow(_mainModel);
             _mainWindow.Show();
+
+            _mainModel.InitialPosition();
+        }
+
+        private void MainModel_Cancelled(object sender)
+        {
+            if (_mode == RunMode.SelectTest)
+            {
+                _mainModel.InitialPosition();
+                _mode = RunMode.SelectName;
+            }else if (_mode == RunMode.Working)
+            {
+                _mainModel.ReadyToSelectTest(_dataController.GetCatalog());
+                _mode = RunMode.SelectTest;
+            }
         }
 
         private void MainModel_Started(object sender, string name)
         {
             if (_mode == RunMode.SelectName)
             {
-                _mainModel.LoadTests(_dataController.GetCatalog());
+                _mainModel.ReadyToSelectTest(_dataController.GetCatalog());
                 _mode = RunMode.SelectTest;
             }else if (_mode == RunMode.SelectTest)
             {
                 _mainModel.StartTest();
+                _mode = RunMode.Working;
                 _mainWindow.WindowState = System.Windows.WindowState.Maximized;
             }
         }

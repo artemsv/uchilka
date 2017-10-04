@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>mainicon_yM8_icon.ico</ApplicationIcon>
+    <ApplicationIcon>Images\mainicon_yM8_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -131,6 +131,7 @@
     <Compile Include="Logic\RunMode.cs" />
     <Compile Include="Logic\TelegramBot.cs" />
     <Compile Include="Presentation\InfoBox.cs" />
+    <Compile Include="ViewModels\CancelledEventHandler.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -182,8 +183,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="mainicon_yM8_icon.ico" />
+    <Resource Include="Images\mainicon_yM8_icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Azbuka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\teacher.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Uchilka.ViewModels
@@ -15,29 +11,42 @@ namespace Uchilka.ViewModels
 
         public MainViewModel()
         {
-            ControlViewModel = new ControlViewModel
-            {
-                ChoiceListBoxVisibility = System.Windows.Visibility.Visible,
-                ChoiceItems = new List<string> { "Руслан", "Аделя" },
-                MarksPanelVisibility = System.Windows.Visibility.Collapsed,
-                StartButtonVisibility = Visibility.Visible,
-                StartButtonCaption = "Выбор"
-            };
+            ControlViewModel = new ControlViewModel();
 
             ControlViewModel.Started += ControlViewModel_Started;
+            ControlViewModel.Cancelled += ControlViewModel_Cancelled;
+        }
+
+        public void InitialPosition()
+        {
+            ControlViewModel.ChoiceListBoxVisibility = System.Windows.Visibility.Visible;
+            ControlViewModel.ChoiceItems = new List<string> { "Руслан", "Аделя" };
+            ControlViewModel.MarksPanelVisibility = System.Windows.Visibility.Hidden;
+            ControlViewModel.StartButtonVisibility = Visibility.Visible;
+            ControlViewModel.CancelButtonVisibility = Visibility.Collapsed;
+            ControlViewModel.StartButtonCaption = "Выбор";
+            ControlViewModel.CancelButtonCaption = "Назад";
 
             BorderImageVisibility = Visibility.Hidden;
         }
 
-        internal void LoadTests(IEnumerable<string> tests)
+        internal void ReadyToSelectTest(IEnumerable<string> tests)
         {
+            ControlViewModel.ChoiceListBoxVisibility = Visibility.Visible;
+            ControlViewModel.MarksPanelVisibility = Visibility.Hidden;
+            ControlViewModel.StartButtonVisibility = Visibility.Visible;
+
+            BorderImageVisibility = Visibility.Hidden;
+
             ControlViewModel.ChoiceItems = tests;
             ControlViewModel.StartButtonCaption = "Старт";
+            ControlViewModel.CancelButtonVisibility = Visibility.Visible;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event UserAnsweredEventHandler UserAnswered;
         public event StartedEventHandler Started;
+        public event CancelledEventHandler Cancelled;
         public ControlViewModel ControlViewModel { get; set; }
 
         public Visibility BorderImageVisibility
@@ -89,6 +98,12 @@ namespace Uchilka.ViewModels
             //ReadyToTest(controlView);
             
             Started(this, name);
+        }
+
+
+        private void ControlViewModel_Cancelled(object sender, string name)
+        {
+            Cancelled(this);
         }
 
         #endregion
