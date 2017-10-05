@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
         <Image
             x:Name="AzbukaPicture"
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -212,7 +212,8 @@
                 <ListBox
                     x:Name="ChoiceListBox"
                     Margin="0,0,0,30"
-                    FontSize="36"
+                    FontSize="28"
+                    Height="200"
                     ItemsSource="{Binding ChoiceItems}"
                     SelectedIndex="{Binding ChoiceIndex}"
                     SelectedItem="{Binding ChoiceItem}"

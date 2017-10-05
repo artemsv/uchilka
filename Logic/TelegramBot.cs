@@ -1,15 +1,13 @@
 ﻿using System.Net;
 using System.Net.Http;
-using Telegram.Bot.Types;
+//using Telegram.Bot.Types;
 
 namespace Uchilka.Logic
 {
     internal class TelegramBot
     {
-        public User TestApiAsync()
+        public bool TestApiAsync()
         {
-            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-
             var handler = new HttpClientHandler
             {
                 UseProxy = false
@@ -22,7 +20,7 @@ namespace Uchilka.Logic
 
             //var botClient = new Telegram.Bot.TelegramBotClient("", h);
 
-            return null;
+            return true;
             //return botClient.GetMeAsync().Result;
         }
     }
