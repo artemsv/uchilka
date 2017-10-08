@@ -211,9 +211,9 @@
                 </DockPanel>
                 <ListBox
                     x:Name="ChoiceListBox"
+                    Height="200"
                     Margin="0,0,0,30"
                     FontSize="28"
-                    Height="200"
                     ItemsSource="{Binding ChoiceItems}"
                     SelectedIndex="{Binding ChoiceIndex}"
                     SelectedItem="{Binding ChoiceItem}"

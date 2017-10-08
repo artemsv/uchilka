@@ -191,5 +191,11 @@
   <ItemGroup>
     <Resource Include="Images\teacher.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="secrets.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
