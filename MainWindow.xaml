@@ -7,6 +7,7 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Uchilka"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     Title="УЧИЛКА"
     MinWidth="525"
     MinHeight="350"
@@ -245,5 +246,6 @@
             </StackPanel>
         </Grid>
     </Grid>
+
 
 </controls:MetroWindow>

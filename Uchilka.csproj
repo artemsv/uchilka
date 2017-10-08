@@ -38,6 +38,9 @@
     <ApplicationIcon>Images\mainicon_yM8_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -129,7 +132,10 @@
     <Compile Include="DataModels\Test.cs" />
     <Compile Include="Logic\AnswerChecker.cs" />
     <Compile Include="Logic\RunMode.cs" />
-    <Compile Include="Logic\TelegramBot.cs" />
+    <Compile Include="Logic\TelegramBot\BotCommandType.cs" />
+    <Compile Include="Logic\TelegramBot\IBotCommandHandler.cs" />
+    <Compile Include="Logic\TelegramBot\SettingsFile.cs" />
+    <Compile Include="Logic\TelegramBot\TelegramBot.cs" />
     <Compile Include="Presentation\InfoBox.cs" />
     <Compile Include="ViewModels\CancelledEventHandler.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
@@ -192,10 +198,14 @@
     <Resource Include="Images\teacher.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="secrets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="secrets.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

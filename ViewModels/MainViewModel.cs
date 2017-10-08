@@ -2,10 +2,11 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using Uchilka.Logic.TelegramBot;
 
 namespace Uchilka.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : IBotCommandHandler, INotifyPropertyChanged
     {
         private Visibility _borderImageVisibility;
 
