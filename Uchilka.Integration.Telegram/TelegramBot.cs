@@ -8,25 +8,20 @@ using Telegram.Bot.Args;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using System;
-using Telegram.Bot.Types;
 using System.IO;
 using System.Threading.Tasks;
-using System.Media;
-using System.Windows.Media;
 using Newtonsoft.Json;
-using System.Diagnostics;
-//using Telegram.Bot.Types;
+using Uchilka.Integration.Abstractions;
 
-namespace Uchilka.Logic.TelegramBot
+namespace Uchilka.Integration.TelegramBot
 {
-    internal class TelegramBot
+    internal class TelegramBot : ICommChannel
     {
-        private XmlNodeList userNodes;
-        private readonly List<string> _enabledUsers;
-        private readonly IBotCommandHandler _commandHandler;
+        private readonly ICommChannelCommandHandler _commandHandler;
         private readonly SettingsFile _settings;
+        private readonly TelegramBotClient _client;
 
-        public TelegramBot(IBotCommandHandler commandHandler)
+        public TelegramBot(ICommChannelCommandHandler commandHandler)
         {
             _commandHandler = commandHandler;
 
@@ -38,10 +33,10 @@ namespace Uchilka.Logic.TelegramBot
                 UseProxy = false
             };
             var httpClient = new HttpClient(httpHandler);
-            var client = new TelegramBotClient(_settings.TelegramBot.Token, httpClient);
+            _client = new TelegramBotClient(_settings.TelegramBot.Token, httpClient);
 
-            client.OnMessage += Client_OnMessage;
-            client.StartReceiving(new[] { UpdateType.All });
+            _client.OnMessage += Client_OnMessage;
+            _client.StartReceiving(new[] { UpdateType.All });
         }
 
         private void Client_OnMessage(object sender, MessageEventArgs e)
@@ -56,15 +51,18 @@ namespace Uchilka.Logic.TelegramBot
                     {
                         if (e.Message.Entities[0].Type == MessageEntityType.BotCommand)
                         {
-                            if (Enum.TryParse(e.Message.EntityValues[0], true, out BotCommandType cmd))
+                            if (Enum.TryParse(e.Message.EntityValues[0], true, out CommChannelCommandType cmd))
                             {
-
+                                _commandHandler.HandleCommand(cmd);
                             }
                         }
                     }
                 }else if (e.Message.Type == MessageType.PhotoMessage)
                 {
-                    downloadFile(client, e.Message.Photo.LastOrDefault().FileId, "Photo").GetAwaiter().GetResult();
+                    var path = downloadFile(client, e.Message.Photo.LastOrDefault().FileId, "Photo").GetAwaiter().GetResult();
+
+                    _commandHandler.HandlePhoto(path);
+
                 }else if (e.Message.Type == MessageType.VideoMessage)
                 {
                     downloadFile(client, e.Message.Video.FileId, "Video").GetAwaiter().GetResult();
@@ -73,36 +71,13 @@ namespace Uchilka.Logic.TelegramBot
                 {
                     var res = downloadFile(client, e.Message.Voice.FileId, "Voice").GetAwaiter().GetResult();
 
-                    PlayVoice(res);
+                    _commandHandler.HandleVoice(res);
                 }
                 else if (e.Message.Type == MessageType.AudioMessage)
                 {
                     downloadFile(client, e.Message.Audio.FileId, "Audio").GetAwaiter().GetResult();
                 }
             }
-        }
-
-        private void PlayVoice(string res)
-        {
-            Process.Start(_settings.Player.Path, string.Format(_settings.Player.Arguments, res));
-        }
-
-        public bool TestApiAsync()
-        {
-            var handler = new HttpClientHandler
-            {
-                UseProxy = false
-            };
-
-            var h = new HttpClient(handler);
-            var authenticationToken = "";
-            var url = $"https://api.telegram.org/bot{authenticationToken}";
-            var res = h.GetAsync(url + "/getMe").Result;
-
-            //var botClient = new Telegram.Bot.TelegramBotClient("", h);
-
-            return true;
-            //return botClient.GetMeAsync().Result;
         }
 
         public static async Task<string> downloadFile(TelegramBotClient bot, string fileId, string type)
@@ -128,10 +103,16 @@ namespace Uchilka.Logic.TelegramBot
 
                 return fullPath;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
+        }
+
+        public void SendTextMessage(string message)
+        {
+            _settings.TelegramBot.EnabledChatIds.ToList().ForEach(x =>
+                _client.SendTextMessageAsync(x, message));
         }
     }
 }

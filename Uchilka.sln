@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka", "Uchilka.csproj", "{745E92A7-E4E8-4F20-9B4E-F49B6E2B20EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka.Desktop", "Uchilka.Desktop\Uchilka.Desktop.csproj", "{745E92A7-E4E8-4F20-9B4E-F49B6E2B20EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka.Integration.Abstractions", "Uchilka.Integration.Abstractions\Uchilka.Integration.Abstractions.csproj", "{AB5E363D-9C25-4849-90DE-3DDC8E8A408E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka.Integration.Telegram", "Uchilka.Integration.Telegram\Uchilka.Integration.Telegram.csproj", "{52BF673A-8E3F-470E-BB92-54961E2899F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka.WinService", "Uchilka.WinService\Uchilka.WinService.csproj", "{54953F13-914C-4906-A1F7-F3E87D36D409}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +21,23 @@ Global
 		{745E92A7-E4E8-4F20-9B4E-F49B6E2B20EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{745E92A7-E4E8-4F20-9B4E-F49B6E2B20EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{745E92A7-E4E8-4F20-9B4E-F49B6E2B20EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB5E363D-9C25-4849-90DE-3DDC8E8A408E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5E363D-9C25-4849-90DE-3DDC8E8A408E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5E363D-9C25-4849-90DE-3DDC8E8A408E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5E363D-9C25-4849-90DE-3DDC8E8A408E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52BF673A-8E3F-470E-BB92-54961E2899F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52BF673A-8E3F-470E-BB92-54961E2899F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52BF673A-8E3F-470E-BB92-54961E2899F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52BF673A-8E3F-470E-BB92-54961E2899F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54953F13-914C-4906-A1F7-F3E87D36D409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54953F13-914C-4906-A1F7-F3E87D36D409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54953F13-914C-4906-A1F7-F3E87D36D409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54953F13-914C-4906-A1F7-F3E87D36D409}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D5AE04F-A110-410E-9316-87D7EA02BA32}
 	EndGlobalSection
 EndGlobal

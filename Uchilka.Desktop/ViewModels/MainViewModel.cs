@@ -2,20 +2,25 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using Uchilka.Logic.TelegramBot;
+using Uchilka.Integration.Abstractions;
+using Uchilka.Logic;
+using Uchilka.Multimedia;
 
 namespace Uchilka.ViewModels
 {
-    public class MainViewModel : IBotCommandHandler, INotifyPropertyChanged
+    public class MainViewModel : ICommChannelCommandHandler, INotifyPropertyChanged
     {
         private Visibility _borderImageVisibility;
+        private readonly IPlayer _player;
 
-        public MainViewModel()
+        public MainViewModel(IMultimediaFactory mmFactory)
         {
             ControlViewModel = new ControlViewModel();
 
             ControlViewModel.Started += ControlViewModel_Started;
             ControlViewModel.Cancelled += ControlViewModel_Cancelled;
+
+            _player = mmFactory.GetPlayer();
         }
 
         public void InitialPosition()
@@ -67,6 +72,23 @@ namespace Uchilka.ViewModels
         {
             ReadyToTest(ControlViewModel);
         }
+
+        #region ICommChannelCommandHandler
+
+        public void HandleCommand(CommChannelCommandType cmd)
+        {
+        }
+
+        public void HandleVoice(string path)
+        {
+            _player.Play(path);
+        }
+
+        public void HandlePhoto(string path)
+        {
+        }
+
+        #endregion
 
         #region Private
 

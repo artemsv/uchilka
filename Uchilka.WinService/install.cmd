@@ -1,0 +1,1 @@
+Uchilka.WinService.exe install

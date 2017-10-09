@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using Uchilka.Multimedia;
 using Uchilka.ViewModels;
 
 namespace Uchilka.Logic
@@ -32,7 +33,7 @@ namespace Uchilka.Logic
 
         private void CreateUI()
         {
-            _mainModel = new MainViewModel();
+            _mainModel = new MainViewModel(new MultimediaFactory());
             _mainModel.UserAnswered += MainModel_UserAnswered;
             _mainModel.Started += MainModel_Started;
             _mainModel.Cancelled += MainModel_Cancelled;

@@ -8,8 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Uchilka.Logic;
-using Uchilka.Logic.TelegramBot;
+
 using Uchilka.ViewModels;
 
 namespace Uchilka
@@ -36,8 +35,8 @@ namespace Uchilka
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var bot = new TelegramBot(mainViewModel);
-            var me = bot.TestApiAsync();
+            //var bot = new TelegramBot(mainViewModel);
+            //var me = bot.TestApiAsync();
 
             //Picture.Source = new BitmapImage()
         }

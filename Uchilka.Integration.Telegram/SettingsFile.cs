@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Uchilka.Logic.TelegramBot
+namespace Uchilka.Integration.TelegramBot
 {
     internal class SettingsFile
     {
-        public PlayerSettings Player { get; set; }
+        //public PlayerSettings Player { get; set; }
         public TelegramBotSettings TelegramBot { get; set; }
     }
 
@@ -16,6 +16,7 @@ namespace Uchilka.Logic.TelegramBot
     {
         public string Token { get; set; }
         public string[] EnabledUsers { get; set; }
+        public long[] EnabledChatIds { get; set; }
     }
 
     public class PlayerSettings

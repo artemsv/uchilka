@@ -1,6 +1,5 @@
 /.vs
-/obj
-/bin
+*bin
+*obj
 /packages
-/secrets.xml
-/secrets.json
+secrets.json
