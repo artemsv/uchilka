@@ -15,15 +15,19 @@ using Uchilka.Integration.Abstractions;
 
 namespace Uchilka.Integration.TelegramBot
 {
-    internal class TelegramBot : ICommChannel
+    public class TelegramBot : ICommChannel
     {
         private readonly ICommChannelCommandHandler _commandHandler;
+        private readonly ICommChannelMultimediaHandler _mmHandler;
         private readonly SettingsFile _settings;
         private readonly TelegramBotClient _client;
 
-        public TelegramBot(ICommChannelCommandHandler commandHandler)
+        public TelegramBot(ICommChannelHandler commHandler)
         {
-            _commandHandler = commandHandler;
+            _commandHandler = commHandler as ICommChannelCommandHandler;
+            _mmHandler = commHandler as ICommChannelMultimediaHandler;
+
+            if (_commandHandler is null && _mmHandler is null) throw new ArgumentException();
 
             var jsonFile = System.IO.File.ReadAllText("secrets.json");
             _settings = JsonConvert.DeserializeObject<SettingsFile>(jsonFile);
@@ -61,7 +65,7 @@ namespace Uchilka.Integration.TelegramBot
                 {
                     var path = downloadFile(client, e.Message.Photo.LastOrDefault().FileId, "Photo").GetAwaiter().GetResult();
 
-                    _commandHandler.HandlePhoto(path);
+                    _mmHandler.HandlePhoto(path);
 
                 }else if (e.Message.Type == MessageType.VideoMessage)
                 {
@@ -71,7 +75,7 @@ namespace Uchilka.Integration.TelegramBot
                 {
                     var res = downloadFile(client, e.Message.Voice.FileId, "Voice").GetAwaiter().GetResult();
 
-                    _commandHandler.HandleVoice(res);
+                    _mmHandler.HandleVoice(res);
                 }
                 else if (e.Message.Type == MessageType.AudioMessage)
                 {
@@ -111,8 +115,12 @@ namespace Uchilka.Integration.TelegramBot
 
         public void SendTextMessage(string message)
         {
-            _settings.TelegramBot.EnabledChatIds.ToList().ForEach(x =>
-                _client.SendTextMessageAsync(x, message));
+            if (_settings.TelegramBot.EnabledChatIds != null &&
+                _settings.TelegramBot.EnabledChatIds.Any())
+            {
+                _settings.TelegramBot.EnabledChatIds.ToList().ForEach(x =>
+                    _client.SendTextMessageAsync(x, message));
+            }
         }
     }
 }

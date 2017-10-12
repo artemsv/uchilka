@@ -1,25 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
+using Topshelf;
+using Topshelf.Runtime;
 
-namespace Uchilka.WindowsService
+namespace Uchilka.WinService
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            HostFactory.Run(c =>
             {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+                //c.UseAutofacContainer(container);
+
+
+                c.Service<WinService>(s =>
+                {
+                    s.ConstructUsing(x => ConstructService(x));
+                    s.WhenStarted((service, control) => service.Start(control));
+                    s.WhenStopped((service, control) => service.Stop(control));
+                });
+
+                c.StartAutomaticallyDelayed();
+                c.RunAsLocalSystem();
+                c.SetDescription("Uchilka Service");
+                c.SetDisplayName("Uchilka Service");
+                c.SetServiceName("UchilkaSvc");
+            });
+        }
+
+        public static WinService ConstructService (HostSettings settings)
+        {
+            return new WinService();
         }
     }
 }

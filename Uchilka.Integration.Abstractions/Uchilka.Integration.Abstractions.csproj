@@ -37,6 +37,8 @@
     <Compile Include="CommChannelCommandType.cs" />
     <Compile Include="ICommChannel.cs" />
     <Compile Include="ICommChannelCommandHandler.cs" />
+    <Compile Include="ICommChannelHandler.cs" />
+    <Compile Include="ICommChannelMultimediaHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

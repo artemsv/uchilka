@@ -17,6 +17,10 @@ namespace Uchilka.Logic
 
         public IEnumerable<string> GetCatalog()
         {
+            if (!_dataDirInfo.Exists)
+            {
+                Directory.CreateDirectory(_dataDirInfo.FullName);
+            }
             return _dataDirInfo.EnumerateDirectories().Select(x => x.Name);
         }
     }
