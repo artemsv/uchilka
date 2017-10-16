@@ -1,32 +1,39 @@
 ﻿using System.Management;
 using System;
 using System.Diagnostics;
-using Topshelf;
-using Topshelf.Hosts;
 using Uchilka.Integration.Abstractions;
 using Uchilka.Integration.TelegramBot;
 using Newtonsoft.Json;
+using Topshelf;
+using Topshelf.Hosts;
 
 namespace Uchilka.WinService
 {
     internal class WinService : ServiceControl, ICommChannelCommandHandler
     {
         private TelegramBot _commChannel;
+        private DateTime _startTime;
 
         public bool IsRunningAsConsole(HostControl control)
         {
             return control is ConsoleRunHost;
         }
 
-        public void HandleCommand(CommChannelCommandType cmd)
+        public void HandleCommand(CommChannelCommandType cmd, DateTime time)
         {
-            switch (cmd)
+            if (time > _startTime)
             {
-                case CommChannelCommandType.Shutdown:
-                    Shutdown();
-                    break;
-                default:
-                    break;
+                switch (cmd)
+                {
+                    case CommChannelCommandType.Shutdown:
+                        Shutdown();
+                        break;
+                    default:
+                        break;
+                }
+            }else
+            {
+                Debug.WriteLine($"Command {cmd} is out of date {time}");
             }
         }
 
@@ -49,13 +56,15 @@ namespace Uchilka.WinService
             var settings = JsonConvert.DeserializeObject<SettingsFile>(jsonFile);
 
             _commChannel = new TelegramBot(this, settings.TelegramBot);
+            _startTime = DateTime.Now;
+            _commChannel.Start();
 
-            _commChannel.SendTextMessage("Uchilka Service started successfully");
+            _commChannel.SendTextMessage($"Uchilka Service started ({Environment.MachineName})");
         }
 
         public bool Stop(HostControl hostControl)
         {
-            _commChannel.SendTextMessage("Uchilka Service stopped successfully");
+            _commChannel.SendTextMessage("Uchilka Service stopped");
             //HarpLogger.Log("Agent Windows Service: stopping...");
 
             //_host.Stop();

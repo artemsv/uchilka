@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Uchilka.Integration.Abstractions;
-using Uchilka.Logic;
 using Uchilka.Multimedia;
 
 namespace Uchilka.ViewModels

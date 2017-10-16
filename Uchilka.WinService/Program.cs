@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Topshelf;
+﻿using Topshelf;
 using Topshelf.Runtime;
 
 namespace Uchilka.WinService

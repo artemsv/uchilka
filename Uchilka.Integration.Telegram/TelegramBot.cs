@@ -1,16 +1,11 @@
-﻿using System.Net;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Xml;
-using System.Xml.Linq;
-using System.Collections.Generic;
 using Telegram.Bot.Args;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Uchilka.Integration.Abstractions;
 
 namespace Uchilka.Integration.TelegramBot
@@ -41,6 +36,10 @@ namespace Uchilka.Integration.TelegramBot
             _client.OnMessage += Client_OnMessage;
             _client.OnUpdate += _client_OnUpdate;
             _client.OnReceiveError += _client_OnReceiveError;
+        }
+
+        public void Start()
+        {
             _client.StartReceiving(new[] { UpdateType.All });
         }
 
@@ -68,7 +67,7 @@ namespace Uchilka.Integration.TelegramBot
 
                             if (Enum.TryParse(cmdText, true, out CommChannelCommandType cmd))
                             {
-                                _commandHandler.HandleCommand(cmd);
+                                _commandHandler.HandleCommand(cmd, e.Message.Date);
                             }
                         }
                     }
