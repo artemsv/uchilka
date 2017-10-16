@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Uchilka.Integration.Abstractions;
 using Uchilka.Integration.TelegramBot;
 using Uchilka.ViewModels;
 
@@ -35,7 +37,10 @@ namespace Uchilka
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var bot = new TelegramBot(mainViewModel);
+            var jsonFile = System.IO.File.ReadAllText("secrets.json");
+            var settings = JsonConvert.DeserializeObject<SettingsFile>(jsonFile);
+
+            var bot = new TelegramBot(mainViewModel, settings.TelegramBot);
             //var me = bot.TestApiAsync();
 
             //Picture.Source = new BitmapImage()

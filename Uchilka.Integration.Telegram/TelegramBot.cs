@@ -19,35 +19,44 @@ namespace Uchilka.Integration.TelegramBot
     {
         private readonly ICommChannelCommandHandler _commandHandler;
         private readonly ICommChannelMultimediaHandler _mmHandler;
-        private readonly SettingsFile _settings;
+        private readonly TelegramBotSettings _settings;
         private readonly TelegramBotClient _client;
 
-        public TelegramBot(ICommChannelHandler commHandler)
+        public TelegramBot(ICommChannelHandler commHandler, TelegramBotSettings settings)
         {
             _commandHandler = commHandler as ICommChannelCommandHandler;
+            _settings = settings;
+
             _mmHandler = commHandler as ICommChannelMultimediaHandler;
 
             if (_commandHandler is null && _mmHandler is null) throw new ArgumentException();
-
-            var jsonFile = System.IO.File.ReadAllText("secrets.json");
-            _settings = JsonConvert.DeserializeObject<SettingsFile>(jsonFile);
 
             var httpHandler = new HttpClientHandler
             {
                 UseProxy = false
             };
             var httpClient = new HttpClient(httpHandler);
-            _client = new TelegramBotClient(_settings.TelegramBot.Token, httpClient);
+            _client = new TelegramBotClient(_settings.Token, httpClient);
 
             _client.OnMessage += Client_OnMessage;
+            _client.OnUpdate += _client_OnUpdate;
+            _client.OnReceiveError += _client_OnReceiveError;
             _client.StartReceiving(new[] { UpdateType.All });
+        }
+
+        private void _client_OnReceiveError(object sender, ReceiveErrorEventArgs e)
+        {
+        }
+
+        private void _client_OnUpdate(object sender, UpdateEventArgs e)
+        {
         }
 
         private void Client_OnMessage(object sender, MessageEventArgs e)
         {
             var client = sender as TelegramBotClient;
 
-            if (_settings.TelegramBot.EnabledUsers.Contains(e.Message.From.Username))
+            if (_settings.EnabledUsers.Contains(e.Message.From.Username))
             {
                 if (e.Message.Type == MessageType.TextMessage)
                 {
@@ -55,7 +64,9 @@ namespace Uchilka.Integration.TelegramBot
                     {
                         if (e.Message.Entities[0].Type == MessageEntityType.BotCommand)
                         {
-                            if (Enum.TryParse(e.Message.EntityValues[0], true, out CommChannelCommandType cmd))
+                            var cmdText = e.Message.EntityValues[0].Replace("/", string.Empty);
+
+                            if (Enum.TryParse(cmdText, true, out CommChannelCommandType cmd))
                             {
                                 _commandHandler.HandleCommand(cmd);
                             }
@@ -115,10 +126,10 @@ namespace Uchilka.Integration.TelegramBot
 
         public void SendTextMessage(string message)
         {
-            if (_settings.TelegramBot.EnabledChatIds != null &&
-                _settings.TelegramBot.EnabledChatIds.Any())
+            if (_settings.EnabledChatIds != null &&
+                _settings.EnabledChatIds.Any())
             {
-                _settings.TelegramBot.EnabledChatIds.ToList().ForEach(x =>
+                _settings.EnabledChatIds.ToList().ForEach(x =>
                     _client.SendTextMessageAsync(x, message));
             }
         }

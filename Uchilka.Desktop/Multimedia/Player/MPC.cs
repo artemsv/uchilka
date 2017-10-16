@@ -12,12 +12,18 @@ namespace Uchilka.Multimedia.Player
         {
             var key = Registry.CurrentUser.OpenSubKey(@"Software\MPC-HC\MPC-HC");
 
-            _path = key.GetValue("ExePath").ToString();
+            if (key != null)
+            {
+                _path = key.GetValue("ExePath").ToString();
+            }
         }
 
         public void Play(string path)
         {
-            Process.Start(_path, string.Format("{0} /play /nofocus /close /minimized", path));
+            if (_path != null)
+            {
+                Process.Start(_path, string.Format("{0} /play /nofocus /close /minimized", path));
+            }
         }
     }
 }

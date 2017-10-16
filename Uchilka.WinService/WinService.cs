@@ -5,6 +5,7 @@ using Topshelf;
 using Topshelf.Hosts;
 using Uchilka.Integration.Abstractions;
 using Uchilka.Integration.TelegramBot;
+using Newtonsoft.Json;
 
 namespace Uchilka.WinService
 {
@@ -22,7 +23,7 @@ namespace Uchilka.WinService
             switch (cmd)
             {
                 case CommChannelCommandType.Shutdown:
-
+                    Shutdown();
                     break;
                 default:
                     break;
@@ -44,13 +45,17 @@ namespace Uchilka.WinService
 
         private void StartCommChannel()
         {
-            _commChannel = new TelegramBot(this);
+            var jsonFile = System.IO.File.ReadAllText("secrets.json");
+            var settings = JsonConvert.DeserializeObject<SettingsFile>(jsonFile);
+
+            _commChannel = new TelegramBot(this, settings.TelegramBot);
 
             _commChannel.SendTextMessage("Uchilka Service started successfully");
         }
 
         public bool Stop(HostControl hostControl)
         {
+            _commChannel.SendTextMessage("Uchilka Service stopped successfully");
             //HarpLogger.Log("Agent Windows Service: stopping...");
 
             //_host.Stop();
