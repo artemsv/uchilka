@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -74,7 +75,7 @@ namespace Uchilka.ViewModels
 
         #region ICommChannelCommandHandler
 
-        public void HandleCommand(CommChannelCommandType cmd)
+        public void HandleCommand(CommChannelCommandType cmd, DateTime time)
         {
         }
 
