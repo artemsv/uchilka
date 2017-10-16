@@ -76,6 +76,16 @@ namespace Uchilka.WinService
 
         private void Shutdown()
         {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "Shutdown",
+                Arguments = "-s -t 10",
+                CreateNoWindow = true
+            });
+        }
+
+        private void ShutdownWMI()
+        {
             ManagementBaseObject mboShutdown = null;
             ManagementClass mcWin32 = new ManagementClass("Win32_OperatingSystem");
             mcWin32.Get();
