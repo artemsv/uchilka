@@ -6,6 +6,8 @@ using Uchilka.Integration.TelegramBot;
 using Newtonsoft.Json;
 using Topshelf;
 using Topshelf.Hosts;
+using Uchilka.WinService.Win32;
+using System.IO;
 
 namespace Uchilka.WinService
 {
@@ -28,6 +30,9 @@ namespace Uchilka.WinService
                     case CommChannelCommandType.Shutdown:
                         Shutdown();
                         break;
+                    case CommChannelCommandType.GetScreen:
+                        SendScreenShot();
+                        break;
                     default:
                         break;
                 }
@@ -35,6 +40,32 @@ namespace Uchilka.WinService
             {
                 Debug.WriteLine($"Command {cmd} is out of date {time}");
             }
+        }
+
+        private void SendScreenShot()
+        {
+            var targetDir = Path.Combine(Directory.GetCurrentDirectory(), "ScreenShots");
+            var fileName = $"{DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss")}.png";
+
+            if (TakeScreenShot(targetDir, fileName) == 0)
+            {
+                _commChannel.SendTextMessage("ERROR: take screen capture failed");
+            }
+            else
+            {
+                _commChannel.SendTextMessage("ERROR: take screen capture failed");
+            }
+        }
+
+        private uint TakeScreenShot(string targetDir, string fileName)
+        {
+            var commandLine = $"Uchilka.ScreenCapturer.exe \"{targetDir}\" {fileName}";
+
+            var res = ProcessAsCurrentUser.CreateProcessAsCurrentUser(null, commandLine);
+
+            Debug.WriteLine($"Screen Capturer launch result: {res}");
+
+            return res;
         }
 
         public bool Start(HostControl hostControl)

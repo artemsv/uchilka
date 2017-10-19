@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka.Integration.Telegra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka.WinService", "Uchilka.WinService\Uchilka.WinService.csproj", "{54953F13-914C-4906-A1F7-F3E87D36D409}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uchilka.ScreenCapturer", "Uchilka.ScreenCapturer\Uchilka.ScreenCapturer.csproj", "{34B8D9DA-7601-4884-90F5-C7B4409071FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{54953F13-914C-4906-A1F7-F3E87D36D409}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54953F13-914C-4906-A1F7-F3E87D36D409}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54953F13-914C-4906-A1F7-F3E87D36D409}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34B8D9DA-7601-4884-90F5-C7B4409071FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34B8D9DA-7601-4884-90F5-C7B4409071FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34B8D9DA-7601-4884-90F5-C7B4409071FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34B8D9DA-7601-4884-90F5-C7B4409071FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
