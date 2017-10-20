@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Uchilka.Integration.Abstractions;
+using Telegram.Bot.Types;
 
 namespace Uchilka.Integration.TelegramBot
 {
@@ -34,20 +35,66 @@ namespace Uchilka.Integration.TelegramBot
             _client = new TelegramBotClient(_settings.Token, httpClient);
 
             _client.OnMessage += Client_OnMessage;
-            _client.OnUpdate += _client_OnUpdate;
-            _client.OnReceiveError += _client_OnReceiveError;
+            _client.OnUpdate += Client_OnUpdate;
+            _client.OnReceiveError += Client_OnReceiveError;
+            _client.OnReceiveGeneralError += Client_OnReceiveGeneralError;
         }
+
+        #region Public
 
         public void Start()
         {
             _client.StartReceiving(new[] { UpdateType.All });
         }
 
-        private void _client_OnReceiveError(object sender, ReceiveErrorEventArgs e)
+        public void SendPhotoMessage(Stream stream, string fileName)
+        {
+            var bytes = new byte[stream.Length];
+
+            stream.Write(bytes, 0, (int)stream.Length);
+
+            CallForEnabled(async chatId =>
+            {
+                await _client.SendChatActionAsync(chatId, ChatAction.UploadPhoto);
+                var res = await _client.SendPhotoAsync(chatId, new FileToSend
+                {
+                    Content = new MemoryStream(bytes, 0, bytes.Length),
+                    Filename = fileName,
+                    //FileId = Guid.NewGuid().ToString("n"),
+                }, fileName);
+                await _client.SendChatActionAsync(chatId, ChatAction.Typing);
+
+                return res;
+            });
+        }
+
+        public void SendTextMessage(string message)
+        {
+            CallForEnabled(async chatId => await _client.SendTextMessageAsync(chatId, message));
+        }
+
+        #endregion
+
+        #region Private
+
+        private void CallForEnabled(Func<long, Task<Message>> action)
+        {
+            if (_settings.EnabledChatIds != null &&
+                _settings.EnabledChatIds.Any())
+            {
+                _settings.EnabledChatIds.ToList().ForEach(x => action(x));
+            }
+        }
+
+        private void Client_OnReceiveError(object sender, ReceiveErrorEventArgs e)
         {
         }
 
-        private void _client_OnUpdate(object sender, UpdateEventArgs e)
+        private void Client_OnReceiveGeneralError(object sender, ReceiveGeneralErrorEventArgs e)
+        {
+        }
+
+        private void Client_OnUpdate(object sender, UpdateEventArgs e)
         {
         }
 
@@ -71,13 +118,15 @@ namespace Uchilka.Integration.TelegramBot
                             }
                         }
                     }
-                }else if (e.Message.Type == MessageType.PhotoMessage)
+                }
+                else if (e.Message.Type == MessageType.PhotoMessage)
                 {
                     var path = downloadFile(client, e.Message.Photo.LastOrDefault().FileId, "Photo").GetAwaiter().GetResult();
 
                     _mmHandler.HandlePhoto(path);
 
-                }else if (e.Message.Type == MessageType.VideoMessage)
+                }
+                else if (e.Message.Type == MessageType.VideoMessage)
                 {
                     downloadFile(client, e.Message.Video.FileId, "Video").GetAwaiter().GetResult();
                 }
@@ -94,7 +143,7 @@ namespace Uchilka.Integration.TelegramBot
             }
         }
 
-        public static async Task<string> downloadFile(TelegramBotClient bot, string fileId, string type)
+        private static async Task<string> downloadFile(TelegramBotClient bot, string fileId, string type)
         {
             try
             {
@@ -123,14 +172,6 @@ namespace Uchilka.Integration.TelegramBot
             }
         }
 
-        public void SendTextMessage(string message)
-        {
-            if (_settings.EnabledChatIds != null &&
-                _settings.EnabledChatIds.Any())
-            {
-                _settings.EnabledChatIds.ToList().ForEach(x =>
-                    _client.SendTextMessageAsync(x, message));
-            }
-        }
+        #endregion
     }
 }
