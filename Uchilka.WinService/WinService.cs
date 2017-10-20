@@ -99,7 +99,7 @@ namespace Uchilka.WinService
 
         public bool Stop(HostControl hostControl)
         {
-            _commChannel.SendTextMessage("Uchilka Service stopped");
+            _commChannel.SendTextMessage($"Uchilka Service stopped ({Environment.MachineName})");
             //HarpLogger.Log("Agent Windows Service: stopping...");
 
             //_host.Stop();

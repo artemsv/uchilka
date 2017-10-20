@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Uchilka.Integration.Abstractions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Exceptions;
 
 namespace Uchilka.Integration.TelegramBot
 {
@@ -51,17 +52,25 @@ namespace Uchilka.Integration.TelegramBot
         {
             var bytes = new byte[stream.Length];
 
-            stream.Write(bytes, 0, (int)stream.Length);
+            stream.Read(bytes, 0, (int)stream.Length);
 
             CallForEnabled(async chatId =>
             {
                 await _client.SendChatActionAsync(chatId, ChatAction.UploadPhoto);
-                var res = await _client.SendPhotoAsync(chatId, new FileToSend
+                Message res = null;
+                try
                 {
-                    Content = new MemoryStream(bytes, 0, bytes.Length),
-                    Filename = fileName,
-                    //FileId = Guid.NewGuid().ToString("n"),
-                }, fileName);
+                    res = await _client.SendPhotoAsync(chatId, new FileToSend
+                    {
+                        Content = new MemoryStream(bytes, 0, bytes.Length),
+                        Filename = fileName,
+                        //FileId = Guid.NewGuid().ToString("n"),
+                    }, fileName);
+                }
+                catch(Exception ex)
+                {
+                    res = null;
+                }
                 await _client.SendChatActionAsync(chatId, ChatAction.Typing);
 
                 return res;
@@ -82,7 +91,17 @@ namespace Uchilka.Integration.TelegramBot
             if (_settings.EnabledChatIds != null &&
                 _settings.EnabledChatIds.Any())
             {
-                _settings.EnabledChatIds.ToList().ForEach(x => action(x));
+                _settings.EnabledChatIds.ToList().ForEach(x =>
+                {
+                    try
+                    {
+                        action(x);
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                });
             }
         }
 
