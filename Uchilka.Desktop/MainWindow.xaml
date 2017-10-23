@@ -230,10 +230,10 @@
                         Margin="10"
                         Padding="30,20,30,20"
                         HorizontalAlignment="Center"
-                        Command="{Binding StartCommand}"
-                        Content="{Binding StartButtonCaption}"
+                        Command="{Binding DoNextStepCommand}"
+                        Content="{Binding DoNextStepButtonCaption}"
                         FontSize="24"
-                        Visibility="{Binding StartButtonVisibility}" />
+                        Visibility="{Binding DoNextStepButtonVisibility}" />
                     <Button
                         Margin="10"
                         Padding="30,20,30,20"

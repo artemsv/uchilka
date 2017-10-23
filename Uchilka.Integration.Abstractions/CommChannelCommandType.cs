@@ -3,8 +3,13 @@
     public enum CommChannelCommandType
     {
         None,
+        Cancel,
+        SaveFile,
         ShowMessage,
+        ShowPicture,
         Shutdown,
-        GetScreen
+        GetScreen,
+        PlayVoice,
+        PlayVideo
     }
 }

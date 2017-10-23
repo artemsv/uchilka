@@ -136,28 +136,30 @@ namespace Uchilka.Integration.TelegramBot
                                 _commandHandler.HandleCommand(cmd, e.Message.Date);
                             }
                         }
+                    }else
+                    {
+                        _commandHandler.HandleTextMessage(e.Message.Text);
                     }
                 }
                 else if (e.Message.Type == MessageType.PhotoMessage)
                 {
-                    var path = downloadFile(client, e.Message.Photo.LastOrDefault().FileId, "Photo").GetAwaiter().GetResult();
-
-                    _mmHandler.HandlePhoto(path);
-
+                    var path = downloadFile(client, e.Message.Photo.LastOrDefault().FileId, "Picture").GetAwaiter().GetResult();
+                    _mmHandler?.HandlePicture(path);
                 }
                 else if (e.Message.Type == MessageType.VideoMessage)
                 {
-                    downloadFile(client, e.Message.Video.FileId, "Video").GetAwaiter().GetResult();
+                    var path = downloadFile(client, e.Message.Video.FileId, "Video").GetAwaiter().GetResult();
+                    _mmHandler?.HandleVideo(path);
                 }
                 else if (e.Message.Type == MessageType.VoiceMessage)
                 {
                     var res = downloadFile(client, e.Message.Voice.FileId, "Voice").GetAwaiter().GetResult();
-
-                    _mmHandler.HandleVoice(res);
+                    _mmHandler?.HandleVoice(res);
                 }
                 else if (e.Message.Type == MessageType.AudioMessage)
                 {
-                    downloadFile(client, e.Message.Audio.FileId, "Audio").GetAwaiter().GetResult();
+                    var path  = downloadFile(client, e.Message.Audio.FileId, "Audio").GetAwaiter().GetResult();
+                    _mmHandler?.HandleAudio(path);
                 }
             }
         }

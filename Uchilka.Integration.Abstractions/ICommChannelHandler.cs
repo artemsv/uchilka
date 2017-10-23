@@ -2,5 +2,6 @@
 {
     public interface ICommChannelHandler
     {
+        void HandleTextMessage(string text);
     }
 }

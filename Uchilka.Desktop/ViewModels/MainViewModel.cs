@@ -17,7 +17,7 @@ namespace Uchilka.ViewModels
         {
             ControlViewModel = new ControlViewModel();
 
-            ControlViewModel.Started += ControlViewModel_Started;
+            ControlViewModel.DoNextStep += ControlViewModel_Started;
             ControlViewModel.Cancelled += ControlViewModel_Cancelled;
 
             _player = mmFactory.GetPlayer();
@@ -28,9 +28,9 @@ namespace Uchilka.ViewModels
             ControlViewModel.ChoiceListBoxVisibility = System.Windows.Visibility.Visible;
             ControlViewModel.ChoiceItems = new List<string> { "Руслан", "Аделя" };
             ControlViewModel.MarksPanelVisibility = System.Windows.Visibility.Hidden;
-            ControlViewModel.StartButtonVisibility = Visibility.Visible;
+            ControlViewModel.DoNextStepButtonVisibility = Visibility.Visible;
             ControlViewModel.CancelButtonVisibility = Visibility.Collapsed;
-            ControlViewModel.StartButtonCaption = "Выбор";
+            ControlViewModel.DoNextStepButtonCaption = "Выбор";
             ControlViewModel.CancelButtonCaption = "Назад";
 
             BorderImageVisibility = Visibility.Hidden;
@@ -40,18 +40,18 @@ namespace Uchilka.ViewModels
         {
             ControlViewModel.ChoiceListBoxVisibility = Visibility.Visible;
             ControlViewModel.MarksPanelVisibility = Visibility.Hidden;
-            ControlViewModel.StartButtonVisibility = Visibility.Visible;
+            ControlViewModel.DoNextStepButtonVisibility = Visibility.Visible;
 
             BorderImageVisibility = Visibility.Hidden;
 
             ControlViewModel.ChoiceItems = tests;
-            ControlViewModel.StartButtonCaption = "Старт";
+            ControlViewModel.DoNextStepButtonCaption = "Старт";
             ControlViewModel.CancelButtonVisibility = Visibility.Visible;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event UserAnsweredEventHandler UserAnswered;
-        public event StartedEventHandler Started;
+        public event DoNextStepEventHandler Started;
         public event CancelledEventHandler Cancelled;
         public ControlViewModel ControlViewModel { get; set; }
 
@@ -109,7 +109,7 @@ namespace Uchilka.ViewModels
         {
             controlView.ChoiceListBoxVisibility = Visibility.Hidden;
             controlView.MarksPanelVisibility = Visibility.Visible;
-            controlView.StartButtonVisibility = Visibility.Hidden;
+            controlView.DoNextStepButtonVisibility = Visibility.Hidden;
 
             BorderImageVisibility = Visibility.Visible;
             

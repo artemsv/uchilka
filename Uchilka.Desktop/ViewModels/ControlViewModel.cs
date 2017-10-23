@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -11,21 +12,21 @@ namespace Uchilka.ViewModels
         private Visibility _choiceListBoxVisibility;
         private IEnumerable<string> _choiceItems;
         private Visibility _marksPanelVisibility;
-        private Visibility _startButtonVisibility;
+        private Visibility _doNextStepButtonVisibility;
         private Visibility _cancelButtonVisibility;
-        private string _startButtonCaption;
+        private string _doNextStepButtonCaption;
         private string _cancelButtonCaption;
-        private readonly DelegateCommand _startCommand;
+        private readonly DelegateCommand _doNextStepCommand;
         private readonly DelegateCommand _cancelCommand;
-        private int _choiceIndex;
+        private int _choiceListIndex;
 
         private int _correctAnswerCount;
         private int _wrongAnswerCount;
 
         public ControlViewModel()
         {
-            _choiceIndex = -1;
-            _startCommand = new DelegateCommand(HandleStart);
+            _choiceListIndex = -1;
+            _doNextStepCommand = new DelegateCommand(HandleNextStep, CanExecuteNextStep);
             _cancelCommand = new DelegateCommand(HandleCancel);
         }
 
@@ -42,15 +43,15 @@ namespace Uchilka.ViewModels
             }
         }
 
-        public Visibility StartButtonVisibility
+        public Visibility DoNextStepButtonVisibility
         {
             get
             {
-                return _startButtonVisibility;
+                return _doNextStepButtonVisibility;
             }
             set
             {
-                _startButtonVisibility = value;
+                _doNextStepButtonVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -98,12 +99,14 @@ namespace Uchilka.ViewModels
         {
             get
             {
-                return _choiceIndex;
+                return _choiceListIndex;
             }
             set
             {
-                _choiceIndex = value;
+                _choiceListIndex = value;
                 OnPropertyChanged();
+
+                DoNextStepCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -114,21 +117,21 @@ namespace Uchilka.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event StartedEventHandler Started;
-        public event StartedEventHandler Cancelled;
+        public event DoNextStepEventHandler DoNextStep;
+        public event CancelEventHandler Cancelled;
 
-        public DelegateCommand StartCommand => _startCommand;
+        public DelegateCommand DoNextStepCommand => _doNextStepCommand;
         public DelegateCommand CancelCommand => _cancelCommand;
 
-        public string StartButtonCaption
+        public string DoNextStepButtonCaption
         {
             get
             {
-                return _startButtonCaption;
+                return _doNextStepButtonCaption;
             }
             set
             {
-                _startButtonCaption = value;
+                _doNextStepButtonCaption = value;
                 OnPropertyChanged();
             }
         }
@@ -183,21 +186,26 @@ namespace Uchilka.ViewModels
             }
         }
 
-        private async void HandleStart()
+        private async void HandleNextStep()
         {
-            if (_choiceIndex == -1)
+            if (_choiceListIndex == -1)
             {
                 await InfoBox.ShowMessageAsync("Пожалуйста, выберите имя...", "");
             }
             else
             {
-                Started(this, ChoiceItem);
+                DoNextStep(this, ChoiceItem);
             }
         }
 
         private void HandleCancel()
         {
             Cancelled(this, ChoiceItem);
+        }
+
+        private bool CanExecuteNextStep()
+        {
+            return _choiceListIndex > -1;
         }
 
         #endregion
