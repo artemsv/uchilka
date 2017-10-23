@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Uchilka.DataModels;
 
 namespace Uchilka.Logic
 {
@@ -15,13 +16,21 @@ namespace Uchilka.Logic
             _dataDirInfo = new DirectoryInfo(_dataPath);
         }
 
-        public IEnumerable<string> GetCatalog()
+        public IEnumerable<string> GetTestCatalog()
         {
             if (!_dataDirInfo.Exists)
             {
                 Directory.CreateDirectory(_dataDirInfo.FullName);
             }
             return _dataDirInfo.EnumerateDirectories().Select(x => x.Name);
+        }
+
+        public Test GetTest(string name)
+        {
+            return new Test
+            {
+                Name = name
+            };
         }
     }
 }

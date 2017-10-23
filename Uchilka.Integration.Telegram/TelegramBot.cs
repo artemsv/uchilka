@@ -8,7 +8,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Uchilka.Integration.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Exceptions;
 
 namespace Uchilka.Integration.TelegramBot
 {

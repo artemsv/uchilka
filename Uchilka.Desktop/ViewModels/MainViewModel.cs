@@ -84,8 +84,9 @@ namespace Uchilka.ViewModels
             _player.Play(path);
         }
 
-        public void HandlePhoto(string path)
+        public void HandleTextMessage(string text)
         {
+            
         }
 
         #endregion

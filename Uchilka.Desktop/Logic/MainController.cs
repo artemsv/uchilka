@@ -28,7 +28,7 @@ namespace Uchilka.Logic
 
         private void ShowStartChoice()
         {
-            var catalogItems = _dataController.GetCatalog();
+            var catalogItems = _dataController.GetTestCatalog();
         }
 
         private void CreateUI()
@@ -52,7 +52,7 @@ namespace Uchilka.Logic
                 _mode = RunMode.SelectName;
             }else if (_mode == RunMode.Working)
             {
-                _mainModel.ReadyToSelectTest(_dataController.GetCatalog());
+                _mainModel.ReadyToSelectTest(_dataController.GetTestCatalog());
                 _mode = RunMode.SelectTest;
             }
         }
@@ -61,7 +61,7 @@ namespace Uchilka.Logic
         {
             if (_mode == RunMode.SelectName)
             {
-                _mainModel.ReadyToSelectTest(_dataController.GetCatalog());
+                _mainModel.ReadyToSelectTest(_dataController.GetTestCatalog());
                 _mode = RunMode.SelectTest;
             }else if (_mode == RunMode.SelectTest)
             {

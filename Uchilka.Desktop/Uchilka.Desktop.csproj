@@ -126,6 +126,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataModels\Answer.cs" />
+    <Compile Include="DataModels\Content.cs" />
+    <Compile Include="DataModels\ContentType.cs" />
     <Compile Include="DataModels\Question.cs" />
     <Compile Include="DataModels\Test.cs" />
     <Compile Include="Logic\AnswerChecker.cs" />

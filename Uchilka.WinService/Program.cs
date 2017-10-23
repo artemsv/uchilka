@@ -9,9 +9,6 @@ namespace Uchilka.WinService
         {
             HostFactory.Run(c =>
             {
-                //c.UseAutofacContainer(container);
-
-
                 c.Service<WinService>(s =>
                 {
                     s.ConstructUsing(x => ConstructService(x));
@@ -19,7 +16,7 @@ namespace Uchilka.WinService
                     s.WhenStopped((service, control) => service.Stop(control));
                 });
 
-                c.StartAutomaticallyDelayed();
+                c.StartAutomatically();
                 c.RunAsLocalSystem();
                 c.SetDescription("Uchilka Service");
                 c.SetDisplayName("Uchilka Service");

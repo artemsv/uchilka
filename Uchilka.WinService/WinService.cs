@@ -1,13 +1,7 @@
-﻿using System.Management;
-using System;
+﻿using System;
 using System.Diagnostics;
-using Uchilka.Integration.Abstractions;
-using Uchilka.Integration.TelegramBot;
-using Newtonsoft.Json;
 using Topshelf;
 using Topshelf.Hosts;
-using Uchilka.WinService.Win32;
-using System.IO;
 
 namespace Uchilka.WinService
 {

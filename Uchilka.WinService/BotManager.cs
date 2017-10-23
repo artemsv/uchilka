@@ -129,12 +129,16 @@ namespace Uchilka.WinService
 
         private void Shutdown()
         {
+            _commChannel.SendTextMessage("Shutdown command is being processed...");
+
             Process.Start(new ProcessStartInfo
             {
                 FileName = "Shutdown",
                 Arguments = "-s -t 10",
                 CreateNoWindow = true
             });
+
+            _commChannel.SendTextMessage("Shutdown command is being processed...");
         }
 
         private void ShutdownWMI()
