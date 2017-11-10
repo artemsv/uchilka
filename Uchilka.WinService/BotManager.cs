@@ -186,7 +186,9 @@ namespace Uchilka.WinService
                     try
                     {
                         File.Copy(_lastFilePath, filePath);
-                    }catch(Exception ex)
+                        _commChannel.SendTextMessage($"File saved: {targetFileName}");
+                    }
+                    catch(Exception ex)
                     {
                         _commChannel.SendTextMessage($"ERROR: {ex.Message}");
                     }

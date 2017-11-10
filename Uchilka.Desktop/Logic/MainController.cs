@@ -65,7 +65,7 @@ namespace Uchilka.Logic
                 _mode = RunMode.SelectTest;
             }else if (_mode == RunMode.SelectTest)
             {
-                _mainModel.StartTest();
+                _mainModel.StartTest(name);
                 _mode = RunMode.Working;
                 _mainWindow.WindowState = System.Windows.WindowState.Maximized;
             }

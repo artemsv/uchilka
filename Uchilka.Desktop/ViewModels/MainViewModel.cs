@@ -68,7 +68,7 @@ namespace Uchilka.ViewModels
             }
         }
 
-        internal void StartTest()
+        internal void StartTest(string testName)
         {
             ReadyToTest(ControlViewModel);
         }
